@@ -342,11 +342,13 @@ app.post("/todos/", async (request, response) => {
     isStatusChecked &&
     isValidDates
   ) {
+    const date = format(new Date(dueDate), "yyyy-MM-dd");
     const createTodoQuery = `
             INSERT INTO todo (id, todo, priority, status, category, due_date)
         VALUES
-            (${id}, "${todo}", "${priority}", "${status}", "${category}", "${dueDate}")
+            (${id}, "${todo}", "${priority}", "${status}", "${category}", "${date}")
         `;
+    await db.run(createTodoQuery);
     response.send("Todo Successfully Added");
   }
 });
